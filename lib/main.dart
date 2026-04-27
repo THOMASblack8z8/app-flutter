@@ -10,84 +10,72 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Minha Aplicação',
-      home: MyHomePage(),
+      title: 'App Simples',
+      home: const MinhaTela(),
     );
   }
 }
+class MinhaTela extends StatefulWidget {
+  const MinhaTela({super.key});
 
-class MyHomePage extends StatefulWidget {
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<MinhaTela> createState() => _MinhaTelaState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  String nomeExibido = 'Bem-vindo ao mundo Flutter!';
-  String subtitulo = 'Seja muito bem-vindo!';
+class _MinhaTelaState extends State<MinhaTela> {
+  int _quantidadePessoas = 0;
+
+  void _adicionarPessoa() {
+    setState(() {
+      _quantidadePessoas++;
+    });
+  }
+
+  void _removerPessoa() {
+    setState(() {
+      if (_quantidadePessoas > 0) {
+        _quantidadePessoas--;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Minha Aplicação de Boas-Vindas'),
+        title: const Text('App Simples'),
         centerTitle: true,
-        actions: [
-          IconButton(
-            icon: Icon(Icons.favorite),
-            onPressed: () {
-              print('Ícone do AppBar pressionado!');
-            },
-          ),
-        ],
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              nomeExibido,
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-              textAlign: TextAlign.center,
+            const Text(
+              'Quantidade de Pessoas:',
+              style: TextStyle(fontSize: 20),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 10),
             Text(
-              subtitulo,
-              style: TextStyle(
-                fontSize: 18,
-                color: Colors.grey[700],
-              ),
+              '$_quantidadePessoas',
+              style: const TextStyle(fontSize: 48, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 30),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                FloatingActionButton(
+                  onPressed: _adicionarPessoa,
+                  child: const Icon(Icons.person_add),
+                ),
+                const SizedBox(width: 20),
+                FloatingActionButton(
+                  onPressed: _removerPessoa,
+                  child: const Icon(Icons.person_remove),
+                ),
+              ],
             ),
           ],
         ),
-      ),
-      floatingActionButton: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          FloatingActionButton(
-            onPressed: () {
-              print('Botão pressionado!');
-              setState(() {
-                nomeExibido = 'Bem-vindo ao mundo Flutter!';
-                subtitulo = 'Seja muito bem-vindo!';
-              });
-            },
-            child: Icon(Icons.check),
-          ),
-          SizedBox(height: 16),
-          FloatingActionButton(
-            onPressed: () {
-              print('Thomas Gabriel');
-              setState(() {
-                nomeExibido = 'Thomas Gabriel';
-                subtitulo = 'Bem-vindo ao mundo Flutter!';
-              });
-            },
-            child: Icon(Icons.person),
-          ),
-        ],
       ),
     );
   }
